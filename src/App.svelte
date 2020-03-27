@@ -1,10 +1,11 @@
 <script>
+  import Message from "./Message.svelte";
   export let name;
-  let message = "";
+  let messages = [];
 
-  function updateMessage(event) {
-    console.log(event.target.value);
-    message = event.target.value;
+  function addMessage(event) {
+    console.log(event.detail);
+    messages = [event.detail,...messages];
   }
 </script>
 
@@ -15,8 +16,14 @@
 </style>
 
 <h1>{name}</h1>
-<textarea cols="50" rows="5" on:input={updateMessage} />
+
+<Message author="Ben" on:message={addMessage} />
+
 <div>
-<h3>Preview</h3>
-{message}
+  <h2>Messages</h2>
+  {#each messages as message}
+    <div>By {message.author}</div>
+    <div>{message.text}</div>
+    <hr />
+  {/each}
 </div>
